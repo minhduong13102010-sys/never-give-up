@@ -1,0 +1,9 @@
+pin_7_ngay = [100, 90, 80, 65, 50, 30, 15,]
+hao_hut = []
+for i in range(1, len(pin_7_ngay)):
+    hao = pin_7_ngay[i-1] - pin_7_ngay[i]
+    hao_hut.append(hao)
+
+print("Pin 7 ngay:", pin_7_ngay)
+print("Hao hut moi ngay:", hao_hut)
+print("Trung binh hao:", sum(hao_hut)/len(hao_hut), "%/ngay")
