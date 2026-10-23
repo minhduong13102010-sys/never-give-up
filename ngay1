@@ -7,3 +7,9 @@ for i in range(1, len(pin_7_ngay)):
 print("Pin 7 ngay:", pin_7_ngay)
 print("Hao hut moi ngay:", hao_hut)
 print("Trung binh hao:", sum(hao_hut)/len(hao_hut), "%/ngay")
+import matplotlib.pyplot as plt
+plt.plot(pin_7_ngay)
+plt.title("pin xe dien 7 ngay - Snaper")
+plt.xlabel("ngay")
+plt.ylabel("phan tram pin")
+plt.show()
