@@ -1,13 +1,24 @@
 import matplotlib.pyplot as plt
 pin_7_ngay = [100, 90, 80, 65, 50, 30, 15,]
 hao_hut = []
+
 for i in range(1, len(pin_7_ngay)):
     hao = pin_7_ngay[i-1] - pin_7_ngay[i]
     hao_hut.append(hao)
 
 print("Pin 7 ngay:", pin_7_ngay)
 print("Hao hut moi ngay:", hao_hut)
+trung_binh_hao = sum(hao_hut)/len(hao_hut)
 print("Trung binh hao:", sum(hao_hut)/len(hao_hut), "%/ngay")
+pin_hien_tai = pin_7_ngay[-1]
+du_doan_ngay_mai = pin_hien_tai - trung_binh_hao
+print("Pin hien tai:", pin_hien_tai, "%")
+print("Du doan ngay mai con:", du_doan_ngay_mai, "%")
+if du_doan_ngay_mai < 20:
+    print("CANH BAO: SAC GAP! Mai sap het roi!")
+else:
+    print("An toan, mai van chay duoc")
+
 plt.plot(pin_7_ngay)
 plt.title("pin xe dien 7 ngay - Snaper")
 plt.xlabel("ngay")
