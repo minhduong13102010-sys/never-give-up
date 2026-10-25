@@ -24,3 +24,9 @@ plt.title("pin xe dien 7 ngay - Snaper")
 plt.xlabel("ngay")
 plt.ylabel("phan tram pin")
 plt.show()
+print(f"Du doan ngay mai lam tron: {du_doan_ngay_mai:.2f} %")
+for ngay in range(1, 4):
+    pin_du_doan = pin_hien_tai - trung_binh_hao * ngay
+    print(f"ngay +{ngay} du doan con: {pin_du_doan:.2f} %")
+    if pin_du_doan < 0:
+        print(f" -> Ngay +{ngay}: HET PIN, KHONG CHAY DUOC NUA!")
