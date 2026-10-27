@@ -1,0 +1,30 @@
+import matplotlib.pyplot as plt
+
+ngay = [1, 2, 3, 4, 5, 6, 7]
+pin = [100, 90, 80, 65, 50, 30, 15]
+
+trung_x = sum(ngay)/len(ngay)
+trung_y = sum(pin)/len(pin)
+
+tu = 0
+mau = 0
+for i in range(len(ngay)):
+    tu += (ngay[i]-trung_x)*(pin[i]-trung_y)
+    mau += (ngay[i]-trung_x)**2
+
+a = tu/mau
+b = trung_y - a*trung_x
+
+print(f"AI hoc duoc: pin = {a:.2f} * ngay + {b:.2f}")
+
+for n in [8, 9, 10]:
+    du = a*n + b
+    print(f"Ngay {n} du doan: {du:.2f} %")
+    if du < 0:
+        print(f" -> Ngay {n} HET PIN!")
+
+plt.plot(ngay, pin, 'o-', label="thuc te")
+plt.plot(ngay, [a*x+b for x in ngay], '--', label="AI hoc")
+plt.legend()
+plt.grid()
+plt.show()
