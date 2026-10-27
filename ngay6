@@ -1,0 +1,42 @@
+import matplotlib.pyplot as plt
+
+ngay = [1, 2, 3, 4, 5, 6, 7]
+pin = [100, 90, 80, 65, 50, 30, 15]
+
+trung_x = sum(ngay)/len(ngay)
+trung_y = sum(pin)/len(pin)
+tu = 0
+mau = 0
+for i in range(len(ngay)):
+    tu += (ngay[i]-trung_x)*(pin[i]-trung_y)
+    mau += (ngay[i]-trung_x)**2
+a = tu/mau
+b = trung_y - a*trung_x
+
+print(f"AI da hoc xong: pin = {a:.2f} + {b:.2f}")
+
+def du_doan_pin(ngay_muon_hoi):
+    ket_qua = a * ngay_muon_hoi + b
+    if ket_qua < 0:
+      return f"Ngay {ngay_muon_hoi}: HET PIN! ({ket_qua:.2f}%)"
+    elif ket_qua < 20:
+        return f"Ngay {ngay_muon_hoi}: SAP HET! Con (ket_qua:.2f)% - Sac gap!"
+    else:
+      return f"Ngay {ngay_muon_hoi}: Con {ket_qua:.2f}% - Di thoai mai"
+
+for n in [8, 10, 15, 30]:
+    print(du_doan_pin(n))
+
+ngay_tuong_lai = list(range(1, 21))
+pin_tuong_lai = [a*x*b for x in ngay_tuong_lai]
+
+plt.plot(ngay, pin, 'o-', label="thuc te 7 ngay")
+plt.plot(ngay_tuong_lai, pin_tuong_lai, '--', label="AI du doan 20 ngay")
+plt.axhline(y=0, color='red', linestyle='-', label="Het pin")
+plt.axhline(y=20, color='orange', linestyle=':', label="canh bao 20%")
+plt.legend()
+plt.grid()
+plt.title("ngay 6 - Ham du doan pin")
+plt.xlabel("ngay")
+plt.ylabel("pin %")
+plt.show()
