@@ -1,0 +1,52 @@
+import matplotlib.pyplot as plt
+
+ngay = [1, 2, 3, 4, 5, 6, 7,]
+pin = [100, 90, 80, 65, 50, 30, 15]
+
+trung_x = sum(ngay)/len(ngay)
+trung_y = sum(pin)/len(pin)
+tu = 0
+mau = 0
+for i in range(len(ngay)):
+    tu += (ngay[i]-trung_x)*(pin[i]-trung_y)
+    mau += (ngay[i]-trung_x)**2
+a = tu/mau
+b = trung_y - a*trung_x
+
+print(f"AI Level 1 da hoc: pin = {a:.2f}*ngay + {b:.2f}")
+
+def du_doan_pin(ngay_muon, bat_dieu_hoa=False):
+    du_doan = a * ngay_muon + b
+    if bat_dieu_hoa:
+        du_doan -= 5 * ngay_muon
+    
+    if du_doan < 0:
+        return 0, f"Ngay {ngay_muon} (co dieu doa): HET PIN! Sac ngay!"
+    elif du_doan < 20:
+        return du_doan, f"Ngay {ngay_muon} {'(co dieu hoa)' if bat_dieu_hoa else ''}: Con {du_doan:.1f}% - CANH BAO"
+    else:
+        return du_doan, f"Ngay {ngay_muon} {'(co dieu hoa)' if bat_dieu_hoa else ''}: Con {du_doan:.1f}% - OK"
+
+for n in [8, 10, 15]:
+  _, thong_bao1 = du_doan_pin(n, bat_dieu_hoa=False)
+  _, thong_bao2 = du_doan_pin(n, bat_dieu_hoa=True)
+  print (thong_bao1)
+  print(thong_bao2)
+  print("---")
+
+  ngay_tuong_lai = list(range(1, 21))
+  pin_khong_dh = [a*x + b for x in ngay_tuong_lai]
+  pin_co_dh = [a*x + b - 5*x for x in ngay_tuong_lai]
+
+  plt.plot(ngay, pin, 'o-', linewidth=2, label="thuc te 7 ngay")
+  plt.plot(ngay_tuong_lai, pin_khong_dh, '--', label="du doan KHONG dieu hoa")
+  plt.plot(ngay_tuong_lai, pin_co_dh, '--', label="du doan CO dieu hoa")
+  plt.axhline(y=0, color='red', linestyle='-', label="Het pin")
+  plt.axhline(y=20, color='orange', linestyle=':', label="Canh bao")
+  plt.legend()
+  plt.grid(True)
+  plt.title("Ngay 7 - AI biet tinh dieu hoa!")
+  plt.xlabel("Ngay")
+  plt.ylabel("pin %")
+  plt.ylim(-50, 110)
+  plt.show()
