@@ -1,0 +1,19 @@
+ngay = [1,2,3,4,5,6,7]
+pin_thuc_te = [100, 85, 70, 55, 40, 25, 10]
+nhiet_do = [32, 33, 35, 36, 34, 33, 38,]
+
+a = -14.46
+b = 119.29
+
+def du_doan_pinv2(ngay_du_doan, co_dieu_hoa, nhiet_do_ngay_do):
+    pin_goc = a * ngay_du_doan + b
+
+    if co_dieu_hoa == True:
+        if nhiet_do_ngay_do > 35:
+            pin_goc = pin_goc - 8 
+        else:
+            pin_goc = pin_goc - 3
+    return pin_goc
+
+print(du_doan_pinv2(8, True, 38))
+print(du_doan_pinv2(8, True, 32))
