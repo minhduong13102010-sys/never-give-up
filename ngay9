@@ -1,0 +1,18 @@
+so_nguoi = [1, 1, 2, 2, 1, 3, 1]
+def du_doan_pinv3(ngay_du_doan, co_dieu_hoa, nhiet_do_ngay_do, so_nguoi_di):
+    pin_goc = a * ngay_du_doan + b
+    
+    if co_dieu_hoa == True:
+        if nhiet_do_ngay_do > 35:
+            pin_goc = pin_goc - 8
+        else:
+            pin_goc = pin_goc - 3
+    if so_nguoi_di > 2:
+        pin_goc = pin_goc - 10 
+    elif so_nguoi_di == 2:
+        pin_goc = pin_goc - 5  
+    
+    return pin_goc
+
+print(du_doan_pinv3(8, True, 32, 1)) 
+print(du_doan_pinv3(8, True, 32, 3)) 
