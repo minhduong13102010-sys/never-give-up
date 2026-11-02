@@ -1,0 +1,21 @@
+import numpy as np
+
+ngay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+nhiet_do = [32, 33, 35, 36, 34, 33, 38, 39, 32, 37]
+so_nguoi = [1, 1, 2, 2, 1, 3, 1, 2, 2, 1]
+pin_thuc_te = [108, 96, 82, 70, 65, 52, 40, 30, 28, 15]
+
+X = np.array([ngay, nhiet_do, so_nguoi]).T
+y = np.array(pin_thuc_te)
+
+X_with_b = np.c_[np.ones(len(X)), X]
+he_so = np.linalg.lstsq(X_with_b, y, rcond=None)[0]
+print("4 hệ số AI học được (b, ngày, nhiệt, người):", he_so)
+y_du_doan = X_with_b @ he_so
+sai_so = y - y_du_doan
+print("\nPin thật:", y)
+print("Pin AI đoán:", y_du_doan.astype(int))
+print("Sai số:", sai_so.astype(int))
+
+diem_trung_binh = np.mean(np.abs(sai_so))
+print(f"\n=> Trung bình AI đoán sai {diem_trung_binh:.2f}% thôi! Qúa giỏi!")
