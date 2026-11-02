@@ -1,0 +1,15 @@
+import numpy as np 
+he_so = np.array([159.18777361, -9.58864916, -1.26063164, -2.40884928])
+b, w_ngay, w_nhiet, w_nguoi = he_so
+print(f"AI đã học: Pin = {b:.1f} + {w_ngay:.1}*ngày + {w_nhiet:.1f}*nhiệt + {w_nguoi:.1f}*người")
+
+ngay_moi = 11
+nhiet_moi = 38
+so_nguoi_moi = 2
+pin_du_doan = b + w_ngay*ngay_moi + w_nhiet*nhiet_moi + w_nguoi*so_nguoi_moi
+print(f"Ngày {ngay_moi}, {nhiet_moi} độ, {so_nguoi_moi} người -> AI đoán còn {pin_du_doan:.1f}% pin")
+
+for n in range(11, 16):
+    p = b + w_ngay*n + w_nhiet*36 + w_nguoi*1
+    print(f"Ngày {n}: còn {p:.1f}% pin")
+print("\n=> khi nào pin < 10% SÁC GẤP!")
