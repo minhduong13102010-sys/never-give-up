@@ -1,0 +1,23 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+ngay = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+pin_thuc_te = np.array([108, 96, 82, 70, 65, 52, 40, 30, 28, 15])
+
+he_so = np.array([159.18777361, -9.58864916, -1.26063164, -2.40884928])
+b, w_ngay, w_nhiet, w_nguoi = he_so
+
+ngay_tuong_lai = np.array([11, 12, 13, 14, 15])
+pin_tuong_lai = b + w_ngay*ngay_tuong_lai + w_nhiet*36 + w_nguoi*1
+
+plt.figure(figsize=(8, 4))
+plt.plot(ngay, pin_thuc_te, 'o-', label='Pin thật (10 ngày)', linewidth=2)
+plt.plot(ngay_tuong_lai, pin_tuong_lai, 's--', label='Pin AI tiên tri (5 ngày tới)', color='red')
+
+plt.axhline(y=10, color='black', linestyle=':', label='Vạch phải sạc (10%)')
+plt.xlabel('Ngày')
+plt.ylabel('Pin %')
+plt.title('Biểu đồ Pin Xe Điện')
+plt.legend()
+plt.grid(True)
+plt.show()
