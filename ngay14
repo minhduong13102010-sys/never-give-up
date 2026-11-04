@@ -1,0 +1,24 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+ngay = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+pin_thuc_te = np.array([108, 96, 82, 70, 65, 52, 40, 30, 28, 15, 100, 90, 80, 65])
+nhiet_do = np.array([32, 33, 35, 33, 34, 36, 35, 36, 34, 36, 32, 34, 36, 36])
+so_nguoi = np.array([1, 1, 2, 1, 2, 1, 2, 2, 1, 1, 1, 2, 2, 2])
+
+X = np.column_stack([np.ones(14), ngay, nhiet_do, so_nguoi])
+y = pin_thuc_te
+he_so, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
+b, w_ngay, w_nhiet, w_nguoi, = he_so
+print("AI học được:", he_so)
+
+ngay_tuong_lai = np.array([15,16, 17, 18, 19])
+pin_tuong_lai = b + w_ngay*ngay_tuong_lai + w_nhiet*36 + w_nguoi*1
+
+plt.figure(figsize=(8,4))
+plt.plot(ngay, pin_thuc_te, 'o-', label='Pin thật (14 ngày)', linewidth=2)
+plt.plot(ngay_tuong_lai, pin_tuong_lai, 's--', label='Pin AI đoán (ngày 15-19)', color='red')
+plt.axhline(y=10, color='black', linestyle=':', label='Vạch phải sạc')
+plt.legend()
+plt.grid(True)
+plt.show()
