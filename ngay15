@@ -1,0 +1,27 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+ngay = np.array([1, 2, 3, 4, 5, 6, 7,  8, 9, 10, 11, 12, 13, 14, 15])
+pin_thuc_te = np.array([108, 96, 82, 70, 65, 52, 40, 30, 28, 15, 100, 90, 80, 65, 52])
+nhiet_do = np.array([32, 33, 35, 33, 34, 36, 35, 36, 34, 36, 32, 34, 36, 36, 36,])
+so_nguoi = np.array([1, 1, 2, 1, 2, 1, 2, 2, 1, 1, 1, 2, 2, 2, 1])
+vua_sac = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0])
+
+X = np.column_stack([np.ones(15), ngay, nhiet_do, so_nguoi, vua_sac])
+y = pin_thuc_te
+he_so, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
+b, w_ngay, w_nhiet, w_nguoi, w_sac = he_so
+print("AI học được:", he_so)
+print("Hệ số sạc đầy là:", w_sac, "-> Càng to là AI càng hiểu việc sạc!")
+
+pin_ai_doan_lai = X @ he_so
+sai_so = np.abs(y - pin_ai_doan_lai)
+print("Trung bình AI đoán sai:", np.mean(sai_so), "% pin")
+print("Ngày AI đoán tệ nhất, sai:",np.max(sai_so), "% pin")
+
+plt.figure(figsize=(8,4))
+plt.plot(ngay, pin_thuc_te, 'o-', label='Pin thật', linewidth=2)
+plt.plot(ngay, pin_ai_doan_lai, 's--', label='Pin AI đoán lại', color='red')
+plt.legend()
+plt.grid(True)
+plt.show()
