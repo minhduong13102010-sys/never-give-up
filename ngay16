@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as  plt
+
+ngay = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
+pin_thuc_te = np.array([108, 96, 82, 70, 65, 52, 40, 30, 28, 15, 100, 90, 80, 65, 50, 32])
+nhiet_do = np.array([32, 33, 35, 33, 34, 36, 35, 36, 34, 36, 32, 34, 36, 36, 35, 36])
+so_nguoi = np.array([1, 1, 2, 1, 2, 2, 1, 1, 1, 2, 2, 2, 1, 1, 2, 2])
+lan_sac = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0])
+km_di_duoc = np.array([11, 10, 9, 11, 10, 9, 8, 1, 9, 8, 8, 11, 11, 9, 6, 8])
+
+X = np.column_stack([np.ones(16), ngay, nhiet_do, so_nguoi, lan_sac, km_di_duoc])
+y = pin_thuc_te
+he_so, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
+b, w_ngay, w_nhiet, w_nguoi, w_sac, w_km = he_so
+
+print("AI học được:", he_so)
+print("1 km tốn khoảng:", -w_km, "% pin")
+print("sạc đầy cộng thêm:", w_sac, "% pin")
+
+pin_ai_doan_lai = X @ he_so
+sai_so = np.abs(y - pin_ai_doan_lai)
+print("ngày 15 sai 5%")
+print("sạc đầy cộng thêm:", np.mean(sai_so), "% pin")
+
+plt.figure(figsize=(8,4))
+plt.plot(ngay, pin_thuc_te, 'o-', label='pin thật', linewidth=2)
+plt.plot(ngay, pin_ai_doan_lai, 'o--', label='pin AI đoán lại', color='red')
+plt.legend()
+plt.grid(True)
+plt.show()
