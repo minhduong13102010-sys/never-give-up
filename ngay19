@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+ngay = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
+pin_thuc_te = np.array([108, 96, 82, 70, 65, 52, 40, 30, 28, 15, 100, 90, 80, 65, 50, 32, 0, 0, 0])
+km_di_duoc = np.array([11, 10, 9, 11, 10, 9, 8, 1, 9, 8, 8, 11, 11, 9, 6, 8, 0, 0, 0])
+lan_sac = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0])
+
+pin_that = pin_thuc_te[:16]
+km_that = km_di_duoc[:16]
+sac_that = lan_sac[:16]
+
+X = np.column_stack([np.ones(16), km_that, sac_that])
+y = pin_that
+he_so, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
+b, w_km, w_sac = he_so
+
+print("AI học được:", he_so)
+print("Đi 0km, không sạc thì pin còn:", b, "%")
+print("1 km tốn:", -w_km, "% pin")
+print("Sạc đầy cộng thêm:", w_sac, "% pin")
+
+pin_ai_doan_lai = X @ he_so
+sai_so = np.abs(y - pin_ai_doan_lai)
+print("Ngày 18 sai: 10.5%")
+print("Ngày 19 sai trung bình:", np.mean(sai_so), "% pin")
+
+ngay_mai = np.array([1, 10, 0])
+print("Nếu mai đi 10km, không sạc, AI đoán pin còn:", ngay_mai @ he_so, "%")
+
+ngay_mai_2 = np.array([1, 5, 0])
+print("Nếu mai đi 5km, không sạc, AI đoán pin còn:", ngay_mai_2 @ he_so, "%")
+
+plt.figure(figsize=(8,4))
+plt.plot(pin_that, 'o-', label='Pin thật', linewidth=2)
+plt.plot(pin_ai_doan_lai, 's--', label='Pin AI đoán lại', color='red')
+plt.legend()
+plt.grid(True)
+plt.show()
