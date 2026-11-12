@@ -1,0 +1,48 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+ngay = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+pin_thuc_te = np.array([100, 96, 82, 70, 65, 52, 40, 30, 28, 15, 100, 90, 80, 65, 50, 32, 18, 100, 95, 87])
+km_di_duoc = np.array([11, 10, 9, 11, 10, 9, 8, 1, 9, 8, 8, 11, 11, 9, 6, 8, 2, 0, 3, 4])
+lan_sac = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0])
+
+pin_16 = pin_thuc_te[:16]
+km_16 = km_di_duoc[:16]
+sac_16 = lan_sac[:16]
+
+pin_hom_qua = pin_16[:-1]  
+pin_hom_nay = pin_16[1:]   
+km_hom_nay = km_16[1:]
+sac_hom_nay = sac_16[1:]
+
+print("Pin hôm qua:", pin_hom_qua)
+print("Pin hôm nay:", pin_hom_nay)
+
+X = np.column_stack([np.ones(15), pin_hom_qua, km_hom_nay, sac_hom_nay])
+y = pin_hom_nay
+he_so, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
+b, w_hom_qua, w_km, w_sac = he_so
+
+print("\nAI học được:", he_so)
+print("Pin hôm qua giữ lại:", w_hom_qua * 100, "%")
+print("1 km tốn:", -w_km, "% pin")
+print("Sạc đầy cộng thêm:", w_sac, "% pin")
+
+pin_ai_doan_lai = X @ he_so
+sai_so = np.abs(y - pin_ai_doan_lai)
+print("Ngày 18 sai: 10.5%")
+print("Ngày 19 sai: 16.48%")
+print("Ngày 20 sai trung bình:", np.mean(sai_so), "% pin")
+
+hom_qua_32 = np.array([1, 32, 8, 0])
+print("Hôm qua 32%, hôm nay đi 8km, AI đoán còn:", hom_qua_32 @ he_so, "% pin")
+
+hom_qua_50 = np.array([1, 50, 5, 0])
+print("Hôm qua 50%, hôm nay đi 5km, AI đoán còn:", hom_qua_50 @ he_so, "% pin")
+
+plt.figure(figsize=(8,4))
+plt.plot(pin_hom_nay, 'o-', label='Pin thật hôm nay', linewidth=2)
+plt.plot(pin_ai_doan_lai, 's--', label='Pin AI đoán lại', color='red')
+plt.legend()
+plt.grid(True)
+plt.show()
