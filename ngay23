@@ -1,0 +1,45 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+print( np.__version__)
+
+pin_ngay_17_that = 18
+pin_ngay_18_that = 100
+pin_ngay_19_that = 95
+
+pin_19 = np.array([108, 96, 82, 70, 65, 52, 40, 30, 28, 15, 100, 90, 80, 65, 50, 32,
+                   pin_ngay_17_that, pin_ngay_18_that, pin_ngay_19_that])
+km_19 = np.array([11, 10, 9, 11, 10, 9, 8, 1, 9, 8, 8, 11, 11, 9, 6, 8,
+                  8, 0, 8])
+sac_19 = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+                   0, 1, 0])
+
+pin_hom_qua = pin_19[:-1]
+pin_hom_nay = pin_19[1:]
+km_hom_nay = km_19[1:]
+sac_hom_nay = sac_19[1:]
+
+X = np.column_stack([np.ones(18), pin_hom_qua, km_hom_nay, sac_hom_nay])
+y = pin_hom_nay
+he_so_moi, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
+print("AI Ngay 23 hoc duoc:", he_so_moi)
+
+du_doan = X @ he_so_moi
+sai_so_moi = np.mean(np.abs(du_doan - y))
+print(f"AI moi (19 ngay) sai: {sai_so_moi:.2f}%")
+
+plt.figure(figsize=(10,4))
+plt.plot(pin_19, 'o-', color='blue', linewidth=2, label='Pin that 19 ngay')
+plt.plot(np.arange(1, 19), du_doan, 'o-', color='red', linewidth=2, label='AI moi doan lai')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+def doan_pin_moi(pin_hom_qua, km, sac):
+    tho = np.array([1, pin_hom_qua, km, sac]) @ he_so_moi
+    return np.clip(tho, 0, 100)
+
+pin_tam = pin_ngay_19_that
+for ngay in [20, 21, 22]:
+    pin_tam = doan_pin_moi(pin_tam, 8, 0)
+    print(f"Ngay {ngay} di 8km, khong sac -> AI moi doan con: {pin_tam:.2f}%")
