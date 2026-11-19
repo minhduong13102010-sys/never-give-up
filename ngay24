@@ -1,0 +1,9 @@
+import matplotlib.pyplot as plt
+
+pin = [80, 65, 50]
+ngay = ["hôm kia", "hôm qua", "hôm nay"]
+
+plt.bar(ngay, pin)
+plt.ylabel("pin còn lại %")
+plt.title("pin xe điện - ngày 24")
+plt.show()
